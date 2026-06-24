@@ -1,1 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Adicionar Citações</title>
 
+<style>
+body{
+    font-family:Arial;
+    max-width:800px;
+    margin:40px auto;
+    padding:20px;
+}
+
+textarea{
+    width:100%;
+    height:120px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+}
+
+button{
+    margin-top:10px;
+    padding:10px 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Painel de Citações</h1>
+
+<p>Citação:</p>
+<textarea id="quote"></textarea>
+
+<p>Autor:</p>
+<input id="author">
+
+<br>
+
+<button onclick="addQuote()">
+Adicionar
+</button>
+
+<button onclick="exportJSON()">
+Exportar JSON
+</button>
+
+<p id="count"></p>
+
+<script>
+
+let quotes = [];
+
+function updateCount(){
+    document.getElementById("count").innerText =
+    `Total: ${quotes.length} citações`;
+}
+
+function addQuote(){
+
+    const text =
+    document.getElementById("quote").value.trim();
+
+    const author =
+    document.getElementById("author").value.trim();
+
+    if(!text) return;
+
+    quotes.push({
+        text,
+        author
+    });
+
+    document.getElementById("quote").value="";
+    document.getElementById("author").value="";
+
+    updateCount();
+}
+
+function exportJSON(){
+
+    const blob = new Blob(
+        [JSON.stringify(quotes,null,2)],
+        {type:"application/json"}
+    );
+
+    const a = document.createElement("a");
+
+    a.href = URL.createObjectURL(blob);
+
+    a.download = "quotes.json";
+
+    a.click();
+}
+
+updateCount();
+
+</script>
+
+</body>
+</html>
