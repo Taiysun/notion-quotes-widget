@@ -5,17 +5,12 @@
   <title>Quotes Widget</title>
 
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #191919 !important;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #191919 !important;
+  color: white;
+}
 
     #container {
       max-width: 600px;
@@ -27,19 +22,18 @@
       line-height: 1.5;
     }
 
-#author {
-  margin-top: 12px;
-  font-size: 14px;
-  opacity: 0.6;
-  text-align: right;
-}
+    #author {
+      margin-top: 12px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
   </style>
 </head>
 
 <body>
   <div id="container">
-<div id="quote"></div>
-<div id="author">— autor</div>
+    <div id="quote"></div>
+    <div id="author"></div>
   </div>
 
   <script>
