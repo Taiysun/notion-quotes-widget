@@ -1,90 +1,53 @@
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <title>Quotes Widget</title>
 
-<style>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
 
-body{
-    margin:0;
-    background:#202020;
-    font-family:Arial,sans-serif;
+    #quote {
+      max-width: 500px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
 
-    /* faz ocupar tela toda */
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* agora não é “cartão”, é só conteúdo solto */
-.container{
-    color:white;
-    padding:40px;
-    max-width:700px;
-    text-align:left;
-}
-
-.quote{
-    font-size:22px;
-    line-height:1.5;
-    margin-bottom:15px;
-}
-
-.author{
-    font-weight:bold;
-    font-size:18px;
-    opacity:0.8;
-}
-
-</style>
+    #author {
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 
 <body>
+  <div>
+    <div id="quote"></div>
+    <div id="author"></div>
+  </div>
 
-<div class="container">
+  <script>
+    async function loadQuote() {
+      const res = await fetch('./quotes.json');
+      const data = await res.json();
 
-<div class="quote" id="quote">
-Carregando...
-</div>
+      const random = data[Math.floor(Math.random() * data.length)];
 
-<div class="author" id="author">
-</div>
+      document.getElementById('quote').innerText = `"${random.text}"`;
+      document.getElementById('author').innerText = `— ${random.author}`;
+    }
 
-</div>
-
-<script>
-
-fetch("quotes.json")
-.then(r=>r.json())
-.then(quotes=>{
-
-    const startDate =
-    new Date("2025-01-01");
-
-    const today =
-    new Date();
-
-    const days =
-    Math.floor(
-    (today-startDate)/86400000
-    );
-
-    const quote =
-    quotes[
-    days % quotes.length
-    ];
-
-    document.getElementById("quote")
-    .innerText = quote.text;
-
-    document.getElementById("author")
-    .innerText = "— " + quote.author;
-
-});
-
-</script>
-
+    loadQuote();
+  </script>
 </body>
 </html>
