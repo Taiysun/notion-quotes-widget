@@ -2,37 +2,30 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
-*{
-    box-sizing:border-box;
-}
-
 body{
     margin:0;
-    padding:0;
     background:transparent;
-    font-family:Inter, Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
-.quote-container{
-    width:100%;
+.container{
     background:#1f1f1f;
     color:white;
-    padding:24px 36px;
+    padding:25px 35px;
 }
 
 .quote{
-    font-size:1.35rem;
-    line-height:1.6;
-    margin-bottom:14px;
+    font-size:22px;
+    line-height:1.5;
+    margin-bottom:15px;
 }
 
 .author{
-    font-size:1.1rem;
-    font-weight:700;
+    font-weight:bold;
+    font-size:18px;
 }
 
 </style>
@@ -40,41 +33,46 @@ body{
 
 <body>
 
-<div class="quote-container">
-    <div class="quote" id="quote">
-        Carregando...
-    </div>
+<div class="container">
 
-    <div class="author" id="author"></div>
+<div class="quote" id="quote">
+Carregando...
+</div>
+
+<div class="author" id="author">
+</div>
+
 </div>
 
 <script>
 
-async function loadQuote() {
+fetch("quotes.json")
+.then(r=>r.json())
+.then(quotes=>{
 
-    const response = await fetch("quotes.json");
-    const quotes = await response.json();
+    const startDate =
+    new Date("2025-01-01");
 
-    const startDate = new Date("2025-01-01");
+    const today =
+    new Date();
 
-    const today = new Date();
-
-    const daysPassed = Math.floor(
-        (today - startDate) / 86400000
+    const days =
+    Math.floor(
+    (today-startDate)/86400000
     );
 
-    const quote = quotes[
-        daysPassed % quotes.length
+    const quote =
+    quotes[
+    days % quotes.length
     ];
 
-    document.getElementById("quote").textContent =
-        quote.text;
+    document.getElementById("quote")
+    .innerText = quote.text;
 
-    document.getElementById("author").textContent =
-        "— " + quote.author;
-}
+    document.getElementById("author")
+    .innerText = "— " + quote.author;
 
-loadQuote();
+});
 
 </script>
 
