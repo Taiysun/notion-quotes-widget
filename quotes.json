@@ -13,15 +13,3 @@
   }
 ]
 
- /*
-  COMO ADICIONAR NOVA CITAÇÃO:
-
-  {
-    "author": "Nome do autor",
-    "text": "Sua citação aqui"
-  }
-
-  COLOQUE SEMPRE UMA VÍRGULA ENTRE OS BLOCOS
-  E MANTENHA O FORMATO EXATO
-  */
-]
