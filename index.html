@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frase Aleatória</title>
+<title>Frase do Dia</title>
 
 <style>
 body {
@@ -16,22 +17,25 @@ body {
 .widget {
     width: 100%;
     box-sizing: border-box;
-    padding: 18px 28px;
+    padding: 20px 30px;
+    border-radius: 12px;
+    background: #191919;
 }
 
 .quote {
-    font-size: 1.3rem;
-    line-height: 1.5;
+    font-size: 1.5rem;
+    line-height: 1.6;
     font-weight: 400;
 }
 
 .author {
-    margin-top: 12px;
-    font-size: 0.95rem;
+    margin-top: 10px;
+    font-size: 0.85rem;
     font-weight: 600;
-    opacity: 0.8;
+    opacity: 0.75;
 }
 </style>
+
 </head>
 
 <body>
@@ -44,27 +48,31 @@ body {
 <script>
 const quotes = [
 {
-    text: "A lílian disse isso.",
+    text: "Você não precisa ser produtiva para merecer descanso.",
     author: "Lilian"
 },
 {
-    text: "O ravi disse isso.",
-    author: "Ravi"
+    text: "Pequenos passos também levam a grandes lugares.",
+    author: "Lilian"
 },
 {
-    text: "A eleanor disse isso.",
-    author: "Eleanor"
+    text: "Consistência supera motivação.",
+    author: "Lilian"
 },
 {
-    text: "ab",
-    author: "ab"
+    text: "Seu corpo merece cuidado, não punição.",
+    author: "Lilian"
 }
 ];
 
-const random = quotes[Math.floor(Math.random() * quotes.length)];
+// Número do dia desde 01/01/1970
+const dayNumber = Math.floor(Date.now() / 86400000);
 
-document.getElementById("quote").innerHTML = `"${random.text}"`;
-document.getElementById("author").innerHTML = `— ${random.author}`;
+// Escolhe uma frase baseada no dia
+const quote = quotes[dayNumber % quotes.length];
+
+document.getElementById("quote").textContent = `"${quote.text}"`;
+document.getElementById("author").textContent = `— ${quote.author}`;
 </script>
 
 </body>
