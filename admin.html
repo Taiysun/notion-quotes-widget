@@ -2,30 +2,61 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Adicionar Citações</title>
+<title>Painel de Citações</title>
 
 <style>
+
 body{
-    font-family:Arial;
-    max-width:800px;
-    margin:40px auto;
-    padding:20px;
+    font-family: Inter, Arial, sans-serif;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+h1{
+    margin-bottom:20px;
 }
 
 textarea{
     width:100%;
     height:120px;
+    padding:10px;
+    font-size:15px;
 }
 
 input{
     width:100%;
     padding:10px;
+    font-size:15px;
 }
 
 button{
+    padding:10px 18px;
+    margin-right:10px;
     margin-top:10px;
-    padding:10px 20px;
+    cursor:pointer;
 }
+
+.stats{
+    margin-top:20px;
+    font-weight:bold;
+}
+
+.preview{
+    margin-top:30px;
+    border:1px solid #ddd;
+    padding:15px;
+    border-radius:10px;
+    max-height:250px;
+    overflow:auto;
+}
+
+.quote-item{
+    margin-bottom:15px;
+    padding-bottom:15px;
+    border-bottom:1px solid #eee;
+}
+
 </style>
 </head>
 
@@ -33,10 +64,16 @@ button{
 
 <h1>Painel de Citações</h1>
 
-<p>Citação:</p>
+<input type="file" id="importFile" accept=".json">
+
+<br><br>
+
+<label>Citação</label>
 <textarea id="quote"></textarea>
 
-<p>Autor:</p>
+<br><br>
+
+<label>Autor</label>
 <input id="author">
 
 <br>
@@ -49,26 +86,69 @@ Adicionar
 Exportar JSON
 </button>
 
-<p id="count"></p>
+<div class="stats" id="count">
+Total: 0 citações
+</div>
+
+<div class="preview" id="preview">
+Nenhuma citação carregada.
+</div>
 
 <script>
 
 let quotes = [];
 
-function updateCount(){
-    document.getElementById("count").innerText =
-    `Total: ${quotes.length} citações`;
+document
+.getElementById("importFile")
+.addEventListener("change", importJSON);
+
+function importJSON(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        try{
+
+            quotes = JSON.parse(e.target.result);
+
+            updateUI();
+
+        }catch{
+
+            alert("Arquivo JSON inválido.");
+
+        }
+
+    };
+
+    reader.readAsText(file);
 }
 
 function addQuote(){
 
     const text =
-    document.getElementById("quote").value.trim();
+    document
+    .getElementById("quote")
+    .value
+    .trim();
 
     const author =
-    document.getElementById("author").value.trim();
+    document
+    .getElementById("author")
+    .value
+    .trim();
 
-    if(!text) return;
+    if(!text){
+
+        alert("Digite uma citação.");
+
+        return;
+    }
 
     quotes.push({
         text,
@@ -78,26 +158,61 @@ function addQuote(){
     document.getElementById("quote").value="";
     document.getElementById("author").value="";
 
-    updateCount();
+    updateUI();
 }
 
 function exportJSON(){
 
     const blob = new Blob(
         [JSON.stringify(quotes,null,2)],
-        {type:"application/json"}
+        {
+            type:"application/json"
+        }
     );
 
-    const a = document.createElement("a");
+    const a =
+    document.createElement("a");
 
-    a.href = URL.createObjectURL(blob);
+    a.href =
+    URL.createObjectURL(blob);
 
-    a.download = "quotes.json";
+    a.download =
+    "quotes.json";
 
     a.click();
 }
 
-updateCount();
+function updateUI(){
+
+    document.getElementById("count")
+    .innerText =
+    `Total: ${quotes.length} citações`;
+
+    const preview =
+    document.getElementById("preview");
+
+    if(quotes.length===0){
+
+        preview.innerHTML =
+        "Nenhuma citação carregada.";
+
+        return;
+    }
+
+    preview.innerHTML =
+    quotes
+    .slice(-10)
+    .reverse()
+    .map(q => `
+        <div class="quote-item">
+            "${q.text}"<br>
+            <strong>${q.author}</strong>
+        </div>
+    `)
+    .join("");
+}
+
+updateUI();
 
 </script>
 
