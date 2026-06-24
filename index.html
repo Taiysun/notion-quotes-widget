@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frase Aleatória</title>
+
+<style>
+body {
+    margin: 0;
+    background: #191919;
+    color: white;
+    font-family: Inter, sans-serif;
+}
+
+.widget {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 28px;
+}
+
+.quote {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.author {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+    <div class="quote" id="quote"></div>
+    <div class="author" id="author"></div>
+</div>
+
+<script>
+const quotes = [
+{
+    text: "Você não precisa ser produtiva para merecer descanso.",
+    author: "Lilian"
+},
+{
+    text: "Pequenos passos também levam a grandes lugares.",
+    author: "Lilian"
+},
+{
+    text: "Consistência supera motivação.",
+    author: "Lilian"
+},
+{
+    text: "Seu corpo merece cuidado, não punição.",
+    author: "Lilian"
+}
+];
+
+const random = quotes[Math.floor(Math.random() * quotes.length)];
+
+document.getElementById("quote").innerHTML = `"${random.text}"`;
+document.getElementById("author").innerHTML = `— ${random.author}`;
+</script>
+
+</body>
+</html>
