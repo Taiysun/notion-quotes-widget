@@ -1,78 +1,81 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frase do Dia</title>
 
 <style>
-body {
-    margin: 0;
-    background: #191919;
-    color: white;
-    font-family: Inter, sans-serif;
+
+*{
+    box-sizing:border-box;
 }
 
-.widget {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 20px 30px;
-    border-radius: 12px;
-    background: #191919;
+body{
+    margin:0;
+    padding:0;
+    background:transparent;
+    font-family:Inter, Arial, sans-serif;
 }
 
-.quote {
-    font-size: 1.5rem;
-    line-height: 1.6;
-    font-weight: 400;
+.quote-container{
+    width:100%;
+    background:#1f1f1f;
+    color:white;
+    padding:24px 36px;
 }
 
-.author {
-    margin-top: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    opacity: 0.75;
+.quote{
+    font-size:1.35rem;
+    line-height:1.6;
+    margin-bottom:14px;
 }
+
+.author{
+    font-size:1.1rem;
+    font-weight:700;
+}
+
 </style>
-
 </head>
 
 <body>
 
-<div class="widget">
-    <div class="quote" id="quote"></div>
+<div class="quote-container">
+    <div class="quote" id="quote">
+        Carregando...
+    </div>
+
     <div class="author" id="author"></div>
 </div>
 
 <script>
-const quotes = [
-{
-    text: "Você não precisa ser produtiva para merecer descanso.",
-    author: "Lilian"
-},
-{
-    text: "Pequenos passos também levam a grandes lugares.",
-    author: "Lilian"
-},
-{
-    text: "Consistência supera motivação.",
-    author: "Lilian"
-},
-{
-    text: "Seu corpo merece cuidado, não punição.",
-    author: "Lilian"
+
+async function loadQuote() {
+
+    const response = await fetch("quotes.json");
+    const quotes = await response.json();
+
+    const startDate = new Date("2025-01-01");
+
+    const today = new Date();
+
+    const daysPassed = Math.floor(
+        (today - startDate) / 86400000
+    );
+
+    const quote = quotes[
+        daysPassed % quotes.length
+    ];
+
+    document.getElementById("quote").textContent =
+        quote.text;
+
+    document.getElementById("author").textContent =
+        "— " + quote.author;
 }
-];
 
-// Número do dia desde 01/01/1970
-const dayNumber = Math.floor(Date.now() / 86400000);
+loadQuote();
 
-// Escolhe uma frase baseada no dia
-const quote = quotes[dayNumber % quotes.length];
-
-document.getElementById("quote").textContent = `"${quote.text}"`;
-document.getElementById("author").textContent = `— ${quote.author}`;
 </script>
 
 </body>
