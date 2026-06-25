@@ -1,6 +1,75 @@
 index.html:
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Quotes Widget</title>
 
+  <style>
+    
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  color: white;
+}
 
+    #container {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    #quote {
+      font-size: 20px;
+      color: #191919 !important;
+      line-height: 1.5;
+    }
+
+    #author {
+  margin-top: 12px;
+  font-size: 14px;
+  color: black;
+  opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div id="quote"></div>
+    <div id="author"></div>
+  </div>
+
+  <script>
+    async function loadQuote() {
+      const res = await fetch('./quotes.json');
+      const data = await res.json();
+
+      const random = data[Math.floor(Math.random() * data.length)];
+
+      document.getElementById('quote').innerText = `"${random.text}"`;
+      document.getElementById('author').innerText = `— ${random.author}`;
+    }
+
+    loadQuote();
+  </script>
+</body>
+</html>
 
 quotes.json:
+
+[
+  {
+    "author": "Clarice Lispector",
+    "text": "Liberdade é pouco. O que eu desejo ainda não tem nome."
+  },
+  {
+    "author": "Nietzsche",
+    "text": "Aquilo que não me mata me fortalece."
+  },
+  {
+    "author": "Machado de Assis",
+    "text": "A vida sem luta é um mar morto no centro do organismo universal."
+  }
+]
