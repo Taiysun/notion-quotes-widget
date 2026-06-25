@@ -2,4 +2,4 @@ Para adicionar novas citações:
 {
   "author": "Nome",
   "text": "Texto aqui"
-},
+}
